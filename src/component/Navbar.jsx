@@ -1,5 +1,5 @@
-import { ChevronRight, Favorite, Home, LocalMall, Menu, Phone, ShoppingCart } from '@mui/icons-material'
-import { IconButton, Stack, styled, Typography, Toolbar, AppBar, Box, Button, Badge, SwipeableDrawer, Divider, ListItem, List } from '@mui/material';
+import { AccountCircle, ChevronRight, Favorite, Home, LocalMall, Menu, Phone, ShoppingCart } from '@mui/icons-material'
+import { IconButton, Stack, styled, Typography, Toolbar, AppBar, Box, Button, Badge, SwipeableDrawer, Divider, ListItem, List, MenuItem } from '@mui/material';
 
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -7,13 +7,14 @@ import { ProductContext } from '../helper'
 import CartDrawer from './CartDrawer';
 const Navbar = () => {
     const [OpenMenu, setOpenMenu] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const { wishList, selectedCard, setOpen } = useContext(ProductContext)
     const StyledToolBar = styled(Toolbar)({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center"
     })
-    const { wishList, selectedCard, setOpen } = useContext(ProductContext)
-    console.log(selectedCard.length, "length");
+
 
     return (
         <>
@@ -41,7 +42,8 @@ const Navbar = () => {
                         <Button sx={{ "&:hover": { color: "#aa58e9", } }} component={Link} to="/contact" color='inherit'>Contact</Button>
                     </Stack>
 
-                    <Stack direction='row' justifyContent="center" alignItems="center" >
+                    <Stack direction='row' justifyContent="center" alignItems="center" gap="5px" >
+                        <Typography variant='h6' component={Link} to="/login" sx={{ textDecoration: "none", "&:hover": { color: "#9a34e9" }, color: "inherit", fontSize: "17px" }}>Log in</Typography>
                         <IconButton component={Link} to='/wishcart'>
                             <Badge badgeContent={wishList.length} sx={{ color: "#aa58e9" }} showZero>
                                 <Favorite sx={{ color: "black" }} />
@@ -52,6 +54,7 @@ const Navbar = () => {
                                 <LocalMall sx={{ color: "black" }} />
                             </Badge>
                         </IconButton>
+
                         <IconButton sx={{ display: { xs: "block", md: "none" }, mt: "5px" }} onClick={() => setOpenMenu(true)}  >
                             <Menu sx={{ fontSize: "30px", color: "black" }} />
                         </IconButton>

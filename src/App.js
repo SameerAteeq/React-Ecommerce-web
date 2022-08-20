@@ -7,9 +7,12 @@ import Contact from "./component/Contact";
 import About from "./component/About";
 import Header from "./component/Header";
 import FullCard from "./component/FullCard";
-import { DataContext, ProductContext } from "./helper";
+import { DataContext, ProductContext, FormContext } from "./helper";
 import WishCart from "./component/WishCart";
-import "./index.css";
+import Login from "./component/Login/Login";
+import SignUp from "./component/SignUp/SignUp";
+import { userInputs } from "./Form/formSource";
+
 const Items = [
   {
     id: 1,
@@ -95,16 +98,20 @@ function App() {
     <BrowserRouter>
       <DataContext.Provider value={{ Items }} >
         <ProductContext.Provider value={{ selectedCard, setSelectedCards, total, setTotal, open, setOpen, wishList, setWishList }} >
-          <Routes selectedCard={selectedCard} setSelectedCards={setSelectedCards}>
-            <Route path="/" element={<Header />}>
-              <Route index element={<Home />} />
-              <Route path="/wishcart" element={<WishCart />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/about/:id" element={<FullCard />} />
-            </Route>
-            <Route path="*" element={<h1>404 ERROR</h1>} />
-          </Routes>
+          <FormContext.Provider value={{ userInputs }}>
+            <Routes selectedCard={selectedCard} setSelectedCards={setSelectedCards}>
+              <Route path="/" element={<Header />}>
+                <Route index element={<Home />} />
+                <Route path="/wishcart" element={<WishCart />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/about/:id" element={<FullCard />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signUp" element={<SignUp />} />
+              </Route>
+              <Route path="*" element={<h1>404 ERROR</h1>} />
+            </Routes>
+          </FormContext.Provider>
         </ProductContext.Provider>
       </DataContext.Provider>
     </BrowserRouter>
